@@ -1,11 +1,11 @@
 # infosusdz4final
 
-#Camunda je odabrana za sustav za automatizaciju poslovnih procesa. Podaci za login na Camundu su admin/pass. 
+Camunda je odabrana za sustav za automatizaciju poslovnih procesa. Podaci za login na Camundu su admin/pass. 
 
-#Defaultni port je 8080, koje mogu promijeniti u application.yaml
+Defaultni port je 8080, koje mogu promijeniti u application.yaml
 
-# /home je izrađeno korisničko sučelje tj. dashboard
+/home = izrađeno korisničko sučelje tj. dashboard
 
-# /camunda/app/tasklist/default/#/login je stranica za praćenje procesa
+/camunda/app/tasklist/default/#/login = stranica za praćenje procesa
 
-#Sam proces je modeliran s alatom CamundaModeler.
+Sam proces je modeliran s alatom CamundaModeler.
