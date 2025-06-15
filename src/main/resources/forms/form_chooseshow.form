@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "text": "# Choose a show where new actor casts.",
+      "type": "text",
+      "layout": {
+        "row": "Row_1c0bm6o",
+        "columns": null
+      },
+      "id": "Field_15xocpi"
+    },
+    {
+      "label": "",
+      "values": [
+        {
+          "label": "Judita",
+          "value": "juda"
+        },
+        {
+          "label": "Ero s onoga svijeta",
+          "value": "erosonogsvijeta"
+        },
+        {
+          "label": "Moulin Rouge",
+          "value": "moulinrouge"
+        },
+        {
+          "label": "Other",
+          "value": "other"
+        }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "Row_1h7ngjw",
+        "columns": 7
+      },
+      "id": "Field_0vyu41l",
+      "key": "form_selectshow",
+      "description": "You can choose multiple shows.",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "form_chooseshow",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.7.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.36.0"
+  },
+  "schemaVersion": 18
+}

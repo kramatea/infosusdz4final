@@ -1,0 +1,76 @@
+{
+  "components": [
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1y1euy6",
+        "columns": 5
+      },
+      "id": "Field_0qhqmuz",
+      "key": "form_name",
+      "description": "Enter your name.",
+      "validate": {
+        "required": true,
+        "maxLength": "20",
+        "minLength": "5"
+      }
+    },
+    {
+      "label": "Surname",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1y1euy6",
+        "columns": 5
+      },
+      "id": "Field_0zf8c2w",
+      "key": "form_surname",
+      "description": "Enter your surname.",
+      "validate": {
+        "required": true,
+        "minLength": "5",
+        "maxLength": "25"
+      },
+      "properties": {}
+    },
+    {
+      "label": "e-mail",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0uehqn8",
+        "columns": 10
+      },
+      "id": "Field_0ak1gg4",
+      "key": "form_email",
+      "description": "Enter your e-mail.",
+      "validate": {
+        "validationType": "email",
+        "required": false
+      }
+    },
+    {
+      "label": "Mobile phone",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_02fzwx4",
+        "columns": 10
+      },
+      "id": "Field_1b4iiqi",
+      "key": "form_mobilephone",
+      "description": "Enter your mobile phone nuber.",
+      "validate": {
+        "required": false,
+        "validationType": "phone"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "form_fetchinfo",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.7.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.36.0"
+  },
+  "schemaVersion": 18
+}

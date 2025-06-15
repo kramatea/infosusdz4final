@@ -1,0 +1,45 @@
+{
+  "components": [
+    {
+      "text": "# Background verification issues...",
+      "type": "text",
+      "layout": {
+        "row": "Row_1arkizt",
+        "columns": null
+      },
+      "id": "Field_14fdi24"
+    },
+    {
+      "label": "Would you like to choose another actor?",
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "type": "radio",
+      "layout": {
+        "row": "Row_0c8zkez",
+        "columns": null
+      },
+      "id": "Field_0b2l467",
+      "key": "form_radio",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "form_radio",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.7.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.36.0"
+  },
+  "schemaVersion": 18
+}

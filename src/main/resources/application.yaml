@@ -1,0 +1,18 @@
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+
+camunda.bpm.admin-user:
+  id: admin
+  password: pass
+  
+camunda.bpm:
+  spring.auto-deployment:
+    enabled: true
+  deployment-resource-pattern: "classpath*:**/*.bpmn,classpath*:**/*.form"
+  generic-properties:
+    properties:
+      historyTimeToLive: P1D
+      
+spring.thymeleaf.cache: false
+spring.thymeleaf.enabled: true
+spring.thymeleaf.prefix: classpath:/templates/
+spring.thymeleaf.suffix: .html

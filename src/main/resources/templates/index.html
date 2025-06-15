@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${appTitle}">Actor Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .process-card {
+            transition: transform 0.2s;
+        }
+        .process-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-gradient {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            color: white;
+        }
+        .status-badge {
+            font-size: 0.8rem;
+        }
+        .loading-spinner {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-theater-masks"></i>
+                <span th:text="${appTitle}">Actor Management System</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Alerts -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i>
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Start Process Form -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-play-circle"></i>
+                            Start New Actor Process
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/start-process" method="post" id="startProcessForm">
+                          
+                            <button type="submit" class="btn btn-gradient w-100">
+                                <span class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </span>
+                                <span class="btn-text">
+                                    <i class="fas fa-rocket"></i>
+                                    Start Process
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-bolt"></i>
+                            Quick Actions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-outline-primary w-100 mb-2" onclick="refreshProcesses()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh Process List
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Processes -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-list"></i>
+                    Active Processes
+                </h5>
+                <span class="badge bg-light text-dark" id="processCount">Loading...</span>
+            </div>
+            <div class="card-body">
+                <div id="processesContainer">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Loading processes...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentProcessId = null;
+
+        // Load processes on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProcesses();
+            setInterval(loadProcesses, 10000); // Auto-refresh every 10 seconds
+        });
+
+        // Load processes from REST API
+        async function loadProcesses() {
+            try {
+                const response = await fetch('/api/processes');
+                const data = await response.json();
+                
+                displayProcesses(data.processes);
+                document.getElementById('processCount').textContent = data.processes.length;
+            } catch (error) {
+                console.error('Error loading processes:', error);
+                document.getElementById('processesContainer').innerHTML = 
+                    '<div class="alert alert-danger">Failed to load processes</div>';
+            }
+        }
+
+        // Display processes in the UI
+        function displayProcesses(processes) {
+            const container = document.getElementById('processesContainer');
+            
+            if (processes.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                        <p>No active processes found</p>
+                        <p class="small">Start a new process using the form above</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="row">';
+            processes.forEach(process => {
+                const actorId = process.id || 'N/A';
+                const status = process.variables.backgroundCheckStatus || 'In Progress';
+                
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card process-card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="fas fa-user"></i>
+                                   
+                                </h6>
+                                <p class="card-text">
+                                    <small class="text-muted">ID: ${actorId}</small><br>
+                                    
+                                </p>
+                                <div class="mb-2">
+                                    <span class="badge ${getStatusBadgeClass(status)} status-badge">
+                                        ${status}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+
+        // Get badge class based on status
+        function getStatusBadgeClass(status) {
+            switch(status.toLowerCase()) {
+                case 'ok': return 'bg-success';
+                case 'not_ok': return 'bg-danger';
+                case 'in progress': return 'bg-warning';
+                default: return 'bg-secondary';
+            }
+        }
+
+        // Refresh processes manually
+        function refreshProcesses() {
+            loadProcesses();
+        }
+
+        // Form submission with loading state
+        document.getElementById('startProcessForm').addEventListener('submit', function() {
+            const button = this.querySelector('button[type="submit"]');
+            const spinner = button.querySelector('.loading-spinner');
+            const text = button.querySelector('.btn-text');
+            
+            spinner.style.display = 'inline';
+            text.style.display = 'none';
+            button.disabled = true;
+        });
+    </script>
+</body>
+</html>
