@@ -10,6 +10,8 @@ Defaultni port je 8080, koje mogu promijeniti u application.yaml
 
 Sam proces je modeliran s alatom CamundaModeler.
 
+Model se nalazi u src/main/resources folderu.
+
 # Upute za instalaciju:
 - download s gita
 - koristeći maven, pokrenuti sa linijom $ mvn spring-boot:run
