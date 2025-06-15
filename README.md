@@ -9,3 +9,7 @@ Defaultni port je 8080, koje mogu promijeniti u application.yaml
 /camunda/app/tasklist/default/#/login = stranica za praćenje procesa
 
 Sam proces je modeliran s alatom CamundaModeler.
+
+# Upute za instalaciju:
+- download s gita
+- koristeći maven, pokrenuti sa linijom $ mvn spring-boot:run
